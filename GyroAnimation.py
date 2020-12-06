@@ -57,7 +57,7 @@ yaw_mode = False
 def contar():
     global counter
     while 1:
-        time.sleep(1)
+        time.sleep(1000)
         counter+=1
 
 def MPU_initialization():
@@ -204,17 +204,17 @@ while 1:
     
     Accel_Angle_X=math.atan(Ax/math.sqrt(Ay**2+Az**2))*(180.0/3.14)
     Accel_Angle_Y=math.atan(Ay/math.sqrt(Ax**2+Az**2))*(180.0/3.14)
-    #Comp_Angle_X=0.96*(Gyro_Angle_X_pre+((Gx)*deltaT))+0.04*Accel_Angle_X
-    #Comp_Angle_Y=0.96*(Gyro_Angle_Y_pre+((Gy)*deltaT))+0.04*Accel_Angle_Y
-    #Gyro_Angle_X_pre = Comp_Angle_X
-    #Gyro_Angle_Y_pre=Comp_Angle_Y
+    Comp_Angle_X=0.96*(Gyro_Angle_X_pre+((Gx)*deltaT))+0.04*Accel_Angle_X
+    Comp_Angle_Y=0.96*(Gyro_Angle_Y_pre+((Gy)*deltaT))+0.04*Accel_Angle_Y
+    Gyro_Angle_X_pre = Comp_Angle_X
+    Gyro_Angle_Y_pre=Comp_Angle_Y
      
-    #ax=(Comp_Angle_X*-1)/1000
-    #ay=(Comp_Angle_Y*-1)/100
+    ax=Comp_Angle_Y
+    ay=Comp_Angle_X
     #az=(Comp_Angle_Y)/100
     
-    ax=Accel_Angle_Y
-    ay=Accel_Angle_X
+    #ax=Accel_Angle_Y
+    #ay=Accel_Angle_X
     #az=Accel_Angle_X
     
     

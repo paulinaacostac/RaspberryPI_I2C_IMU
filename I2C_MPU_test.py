@@ -74,6 +74,7 @@ TEMP_OUT_HIGH = 0x41
 def contar():
     global counter
     while 1:
+        time.sleep(100)
         counter+=1
 
 def MPU_initialization():
@@ -86,8 +87,8 @@ def Read_data(reg_add):
     high = bus.read_byte_data(Device_Address, reg_add)
     low = bus.read_byte_data(Device_Address, reg_add+1)
     value = (high<<8)|low
-    #if value>35768:
-    #    value = value-65536
+    if value>35768:
+        value = value-65536
     return value
 
 bus = smbus.SMBus(1)
@@ -124,8 +125,8 @@ while 1:
     Comp_Angle_Y=0.96*(Gyro_Angle_Y_pre+((Gy)*deltaT))+0.04*Accel_Angle_Y
     Gyro_Angle_X_pre = Comp_Angle_X
     Gyro_Angle_Y_pre=Comp_Angle_Y
-    print(", ",Comp_Angle_X,", ",Comp_Angle_Y)
-    print(", ","0.0")
+    print("Comp_Angle_X: ",Comp_Angle_X,"Comp_Angle_Y: ",Comp_Angle_Y)
+
 
     #print("Acceleraton: X=%.2fg\t\t" %Ax, "Y=%.2fg\t" %Ay, "Z=%.2fg" %Az)
     #print("Gs Rotation: Gx=%.2f\xb0/s\t" %Gx, "Gy=%.2f\xb0/s\t" %Gy, "Gz=%.2f\xb0/s" %Gz) 

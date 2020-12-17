@@ -40,7 +40,8 @@ GYRO_Y_HIGH = 0x45
 GYRO_Z_HIGH = 0x47
 TEMP_OUT_HIGH = 0x41
 global Accel_Angle_X
-global Accel_Angle_Y 
+global Accel_Angle_Y
+global Ax,Ay
 
 puntox=3
 puntoy=3
@@ -69,39 +70,40 @@ def main():
     global puntoy
     global Accel_Angle_X
     global Accel_Angle_Y
+    global Ax,Ay
     #time.sleep(10)
     matrix = Matrix()
-    x_act=1.7
-    y_act=71.06
-    lim_inf_X=1.6
-    lim_sup_X=2
-    lim_inf_Y=70
-    lim_sup_Y=72
-    deltaPos= 3
+    x_act=0.12
+    y_act=3.9
+    lim_inf_X=0.11
+    lim_sup_X=0.13
+    lim_inf_Y=3.8
+    lim_sup_Y=4
+    deltaPos= 1
 
     #keyboard.on_press(key_press)
     while 1:
         #print('comaplglex main: ',Comp_Angle_X)
         #if (Comp_Angle_X>=lim_inf_x)
-        if (Accel_Angle_X>=lim_inf_X and Accel_Angle_X<=lim_sup_X) and (Accel_Angle_Y>=lim_inf_Y and Accel_Angle_Y<=lim_sup_Y):
+        if (Ax>=lim_inf_X and Ax<=lim_sup_X) and (Ay>=lim_inf_Y and Ay<=lim_sup_Y):
             matrix.draw_rectangle(3,3,4,4)
         
-        if Accel_Angle_X < x_act - deltaPos:
+        if Ax < x_act - deltaPos:
             puntox-=1
             matrix.draw_rectangle(puntox,puntoy,puntox+1,puntoy+1)
             x_act = x_act - deltaPos
         
-        if Accel_Angle_X>x_act+deltaPos:
+        if Ax>x_act+deltaPos:
             puntox+=1
             matrix.draw_rectangle(puntox,puntoy,puntox+1,puntoy+1)
             x_act = x_act+deltaPos
         
-        if Accel_Angle_Y<y_act-deltaPos:
+        if Ay<y_act-deltaPos:
             puntoy+=1
             matrix.draw_rectangle(puntox,puntoy,puntox+1,puntoy+1)
             y_act = y_act - deltaPos
             
-        if Accel_Angle_Y>y_act+deltaPos:
+        if Ay>y_act+deltaPos:
             puntoy-=1
             matrix.draw_rectangle(puntox,puntoy,puntox+1,puntoy+1)
             y_act = y_act + deltaPos
@@ -112,7 +114,7 @@ def main():
         #matrix.draw_point(puntox+1,puntoy)
         #matrix.draw_point(puntox,puntoy+1)
         #matrix.draw_point(puntox-1,puntoy-1)
-        time.sleep(1)
+        #time.sleep(1)
 
 class Matrix(object):
     def __init__(self):
@@ -157,7 +159,7 @@ def Read_data(reg_add):
 
 
 if __name__ == "__main__":
-    global Accel_Angle_X,Accel_Angle_Y
+    global Accel_Angle_X,Accel_Angle_Y,Ax,Ay
     try:
         threading.Thread(target=main).start()                
         bus = smbus.SMBus(1)
@@ -192,9 +194,9 @@ if __name__ == "__main__":
             Gyro_Angle_X_pre = Comp_Angle_X
             Gyro_Angle_Y_pre=Comp_Angle_Y
             
-            print('Comp_Angle_X: ',Accel_Angle_X,' Comp_Angle_Y: ',Accel_Angle_Y)
+            print('Comp_Angle_X: ',Ax,' Comp_Angle_Y: ',Ay)
 
-            time.sleep(0.5)
+            #time.sleep(0.5)
 
     except KeyboardInterrupt:
         pass

@@ -44,77 +44,7 @@ puntox=3
 puntoy=3
 
 
-
 #Luma
-def key_press(key):
-	global puntox
-	global puntoy
-	#print(key.name)
-	if key.name == 'left' and puntox != 7:
-		puntox+=1
-	if key.name == 'right' and puntox != 0:
-		puntox-=1
-	if key.name == 'up' and puntoy != 7:
-		puntoy+=1
-	if key.name == 'down' and puntoy != 0:
-		puntoy-=1
-	print((puntox,puntoy))
-
-
-
-def main():
-    global puntox
-    global puntoy
-    global Accel_Angle_X
-    global Accel_Angle_Y
-    global Ax,Ay
-    time.sleep(10)
-    matrix = Matrix()
-    x_act=1.65
-    y_act=70.0
-    lim_inf_X=1
-    lim_sup_X=2.5
-    lim_inf_Y=65.0
-    lim_sup_Y=75.0
-    deltaPos= 0.01
-
-    #keyboard.on_press(key_press)
-    while 1:
-        #print('comaplglex main: ',Comp_Angle_X)
-        #if (Comp_Angle_X>=lim_inf_x)
-        variableX = Comp_Angle_X
-        variableY = Comp_Angle_Y
-        if (variableX>=lim_inf_X and variableX<=lim_sup_X) and (variableY>=lim_inf_Y and variableY<=lim_sup_Y):
-            matrix.draw_rectangle(3,3,4,4)
-        
-        if variableX < x_act - deltaPos:
-            puntox-=1
-            matrix.draw_rectangle(puntox,puntoy,puntox+1,puntoy+1)
-            x_act = x_act - deltaPos
-        
-        if variableX>x_act+deltaPos:
-            puntox+=1
-            matrix.draw_rectangle(puntox,puntoy,puntox+1,puntoy+1)
-            x_act = x_act+deltaPos
-        
-        if variableY<y_act-deltaPos:
-            puntoy+=1
-            matrix.draw_rectangle(puntox,puntoy,puntox+1,puntoy+1)
-            y_act = y_act - deltaPos
-            
-        if variableY>y_act+deltaPos:
-            puntoy-=1
-            matrix.draw_rectangle(puntox,puntoy,puntox+1,puntoy+1)
-            y_act = y_act + deltaPos
-            
-        
-        #matrix.draw_rectangle(puntox,puntoy,puntox+1,puntoy+1)
-        #matrix.draw_point(puntox,puntoy)
-        #matrix.draw_point(puntox+1,puntoy)
-        #matrix.draw_point(puntox,puntoy+1)
-        #matrix.draw_point(puntox-1,puntoy-1)
-        #time.sleep(1)
-
 class Matrix(object):
     def __init__(self):
         super(Matrix,self).__init__()
@@ -159,20 +89,20 @@ def Read_data(reg_add):
 
 if __name__ == "__main__":
     try:
-        #threading.Thread(target=main).start()                
+              
         bus = smbus.SMBus(1)
         Device_Address = 0x68
         MPU_initialization()
         threading.Thread(target=contar).start()
 
-        #time.sleep(10)
+
         matrix = Matrix()
         x_act=5
-        y_act=-0.99
+        y_act=-0.7
         lim_inf_X=4.97
         lim_sup_X=5.02
-        lim_inf_Y=-0.98
-        lim_sup_Y=-1.02
+        lim_inf_Y=-0.8
+        lim_sup_Y=-0.6
         deltaPos= 1
         
         while 1:
@@ -191,7 +121,6 @@ if __name__ == "__main__":
             Gy = GYRO_Y/131.0
             Gz = GYRO_Z/131.0
             
-            #print(counter)
 
             deltaT = counter - Tprev
             Tprev = counter
@@ -206,7 +135,7 @@ if __name__ == "__main__":
             print('Comp_Angle_X: ',Comp_Angle_X,' Comp_Angle_Y: ',Comp_Angle_Y)
             
             if (Comp_Angle_X>=lim_inf_X and Comp_Angle_X<=lim_sup_X) and (Comp_Angle_Y>=lim_inf_Y and Comp_Angle_Y<=lim_sup_Y):
-                matrix.draw_rectangle(3,3,2,2)
+                matrix.draw_rectangle(3,3,4,4)
             
             if Comp_Angle_X < x_act-deltaPos:
                 if puntox<7:
